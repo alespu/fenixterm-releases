@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/alespu/fenixterm-releases/main/fenixterm-theme.schema.json",
+  "title": "Tema de FenixTerm (v1)",
+  "description": "Solo valores con tipo: colores #rrggbb, números con rango y opciones de lista. Los campos desconocidos se ignoran y lo ilegible se corrige al cargar.",
+  "type": "object",
+  "required": ["name", "colors"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "id": { "type": "string", "pattern": "^[a-z0-9-]{1,40}$" },
+    "name": { "type": "string", "maxLength": 40 },
+    "dark": { "type": "boolean" },
+    "colors": {
+      "type": "object",
+      "required": ["base", "text"],
+      "properties": {
+        "base": { "$ref": "#/$defs/color", "description": "Fondo principal" },
+        "mantle": { "$ref": "#/$defs/color", "description": "Barras laterales" },
+        "crust": { "$ref": "#/$defs/color", "description": "Lo más hundido" },
+        "surface0": { "$ref": "#/$defs/color", "description": "Paneles" },
+        "surface1": { "$ref": "#/$defs/color", "description": "Bordes" },
+        "surface2": { "$ref": "#/$defs/color", "description": "Bordes fuertes" },
+        "text": { "$ref": "#/$defs/color", "description": "Texto principal" },
+        "subtext1": { "$ref": "#/$defs/color", "description": "Texto secundario" },
+        "subtext0": { "$ref": "#/$defs/color", "description": "Texto suave" },
+        "blue": { "$ref": "#/$defs/color", "description": "Acento principal" },
+        "green": { "$ref": "#/$defs/color" },
+        "yellow": { "$ref": "#/$defs/color" },
+        "red": { "$ref": "#/$defs/color" },
+        "mauve": { "$ref": "#/$defs/color" },
+        "pink": { "$ref": "#/$defs/color" },
+        "teal": { "$ref": "#/$defs/color" },
+        "peach": { "$ref": "#/$defs/color" },
+        "onAccent": { "$ref": "#/$defs/color", "description": "Texto sobre botones de color" }
+      },
+      "additionalProperties": false
+    },
+    "terminal": {
+      "type": "object",
+      "propertyNames": { "enum": ["background", "foreground", "cursor", "cursorAccent", "selectionBackground", "selectionForeground", "black", "red", "green", "yellow", "blue", "magenta", "cyan", "white", "brightBlack", "brightRed", "brightGreen", "brightYellow", "brightBlue", "brightMagenta", "brightCyan", "brightWhite"] },
+      "additionalProperties": { "$ref": "#/$defs/color" }
+    },
+    "font": {
+      "type": "object",
+      "properties": {
+        "ui": { "$ref": "#/$defs/font" },
+        "mono": { "$ref": "#/$defs/font" }
+      },
+      "additionalProperties": false
+    },
+    "shape": {
+      "type": "object",
+      "properties": { "radius": { "type": "number", "minimum": 0, "maximum": 16, "description": "Esquinas en px; 6 es lo normal" } },
+      "additionalProperties": false
+    },
+    "density": { "enum": ["compacta", "normal", "amplia"] },
+    "effects": {
+      "type": "object",
+      "properties": {
+        "glow": { "oneOf": [{ "$ref": "#/$defs/color" }, { "type": "null" }], "description": "Borde neón con brillo" },
+        "shadows": { "enum": ["ninguna", "suaves", "fuertes"] },
+        "animations": { "type": "boolean" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "$defs": {
+    "color": { "type": "string", "pattern": "^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$" },
+    "font": { "type": "string", "maxLength": 40, "pattern": "^[\\p{L}\\p{N} ._-]*$" }
+  },
+  "additionalProperties": false
+}
